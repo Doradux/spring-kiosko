@@ -2,13 +2,30 @@ package com.daw.kiosko.model;
 
 import java.util.Date;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name = "pedidos")
 public class Pedido {
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	private String numero;
 	private Date fechaCreacion;
 	private Date fechaRecibida;
-	
 	private double total;
+	
+	@ManyToOne
+	private Usuario usuario;
+	
+	@OneToOne(mappedBy = "pedido")
+	private DetallePedido detalle;
 
 	public Pedido() {
 	}
@@ -60,6 +77,22 @@ public class Pedido {
 
 	public void setTotal(double total) {
 		this.total = total;
+	}
+
+	public Usuario getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
+	}
+
+	public DetallePedido getDetalle() {
+		return detalle;
+	}
+
+	public void setDetalle(DetallePedido detalle) {
+		this.detalle = detalle;
 	}
 
 	@Override
