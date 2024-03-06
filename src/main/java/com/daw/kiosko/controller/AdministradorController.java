@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.daw.kiosko.model.Producto;
+import com.daw.kiosko.service.IPedidoService;
 import com.daw.kiosko.service.IProductoService;
 import com.daw.kiosko.service.IUsuarioService;
 
@@ -21,6 +22,9 @@ public class AdministradorController {
 	
 	@Autowired
 	private IUsuarioService usuarioService;
+	
+	@Autowired
+	private IPedidoService pedidoService;
 	
 	@GetMapping("")
 	public String home(Model model) {
@@ -36,5 +40,12 @@ public class AdministradorController {
 		
 		model.addAttribute("usuarios", usuarioService.findAll());
 		return "administrador/usuarios";
+	}
+	
+	@GetMapping("/pedidos")
+	public String pedidos(Model model) {
+		
+		model.addAttribute("pedidos", pedidoService.findAll());
+		return "administrador/pedidos";
 	}
 }
