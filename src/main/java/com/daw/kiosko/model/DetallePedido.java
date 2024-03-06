@@ -1,7 +1,5 @@
 package com.daw.kiosko.model;
 
-import java.util.Date;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -10,37 +8,36 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
-
 @Entity
-@Table(name = "destalles")
+@Table(name = "detalles")
 public class DetallePedido {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-	private String numero;
-	private Date fechaCreacion;
-	private Date fechaRecibida;
+	private String nombre;
+	private double cantidad;
+	private double precio;
 	private double total;
-	
+
 	@OneToOne
 	private Pedido pedido;
-	
+
 	@ManyToOne
 	private Producto producto;
-	
+
 	public DetallePedido() {
 	}
 
-	public DetallePedido(Integer id, String numero, Date fechaCreacion, Date fechaRecibida, double total) {
+	public DetallePedido(Integer id, String nombre, double cantidad, double precio, double total) {
 		super();
 		this.id = id;
-		this.numero = numero;
-		this.fechaCreacion = fechaCreacion;
-		this.fechaRecibida = fechaRecibida;
+		this.nombre = nombre;
+		this.cantidad = cantidad;
+		this.precio = precio;
 		this.total = total;
 	}
 
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
 
@@ -48,28 +45,28 @@ public class DetallePedido {
 		this.id = id;
 	}
 
-	public String getNumero() {
-		return numero;
+	public String getNombre() {
+		return nombre;
 	}
 
-	public void setNumero(String numero) {
-		this.numero = numero;
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
 	}
 
-	public Date getFechaCreacion() {
-		return fechaCreacion;
+	public double getCantidad() {
+		return cantidad;
 	}
 
-	public void setFechaCreacion(Date fechaCreacion) {
-		this.fechaCreacion = fechaCreacion;
+	public void setCantidad(double cantidad) {
+		this.cantidad = cantidad;
 	}
 
-	public Date getFechaRecibida() {
-		return fechaRecibida;
+	public double getPrecio() {
+		return precio;
 	}
 
-	public void setFechaRecibida(Date fechaRecibida) {
-		this.fechaRecibida = fechaRecibida;
+	public void setPrecio(double precio) {
+		this.precio = precio;
 	}
 
 	public double getTotal() {
@@ -94,12 +91,6 @@ public class DetallePedido {
 
 	public void setProducto(Producto producto) {
 		this.producto = producto;
-	}
-
-	@Override
-	public String toString() {
-		return "DetallePedido [id=" + id + ", numero=" + numero + ", fechaCreacion=" + fechaCreacion
-				+ ", fechaRecibida=" + fechaRecibida + ", total=" + total + "]";
 	}
 
 }
