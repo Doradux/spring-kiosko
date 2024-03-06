@@ -1,5 +1,8 @@
 package com.daw.kiosko.service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +18,41 @@ public class PeidoServiceImpl implements IPedidoService {
 	@Override
 	public Pedido save(Pedido pedido) {
 		return pedidoRepository.save(pedido);
+	}
+
+	@Override
+	public List<Pedido> findAll() {
+		return pedidoRepository.findAll();
+	}
+	
+	public String generarNumeroPedido() {
+		Integer numero = 0;
+		String numeroConcatenado = "";
+		
+		List<Pedido> pedidos = findAll();
+		
+		//por si DB devuelve en string
+		List<Integer> numeros = new ArrayList<Integer>();
+		
+		pedidos.stream().forEach(o -> numeros.add(Integer.parseInt(o.getNumero() ) ));
+		
+		if (pedidos.isEmpty()) {
+			numero = 1;
+		} else {
+			//mayor numero de la lista
+			numero = numeros.stream().max(Integer::compare).get();
+			numero++;
+		}
+		
+		if (numero < 10) {
+			numeroConcatenado = "00" + String.valueOf(numero);
+		} else if (numero < 100) {
+			numeroConcatenado = "0" + String.valueOf(numero);
+		} else if (numero < 1000) {
+			numeroConcatenado = "" + String.valueOf(numero);
+		}
+		
+		return numeroConcatenado;
 	}
 
 }
