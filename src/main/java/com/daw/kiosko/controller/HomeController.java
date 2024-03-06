@@ -189,4 +189,10 @@ public class HomeController {
 		
 		return "/usuario/home";
 	}
+	
+	@GetMapping("/compras")
+	public String compras(HttpSession session, Model model) {
+		model.addAttribute("session", session.getAttribute("idusuario"));
+		return "/usuario/compras";
+	}
 }
