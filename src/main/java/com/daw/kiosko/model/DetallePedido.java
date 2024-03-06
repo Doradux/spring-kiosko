@@ -16,7 +16,7 @@ import jakarta.persistence.Table;
 public class DetallePedido {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
+	private Integer id;
 	private String numero;
 	private Date fechaCreacion;
 	private Date fechaRecibida;
@@ -31,7 +31,7 @@ public class DetallePedido {
 	public DetallePedido() {
 	}
 
-	public DetallePedido(int id, String numero, Date fechaCreacion, Date fechaRecibida, double total) {
+	public DetallePedido(Integer id, String numero, Date fechaCreacion, Date fechaRecibida, double total) {
 		super();
 		this.id = id;
 		this.numero = numero;
@@ -44,7 +44,7 @@ public class DetallePedido {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
