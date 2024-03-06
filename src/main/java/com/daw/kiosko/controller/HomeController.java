@@ -57,7 +57,7 @@ public class HomeController {
 		model.addAttribute("productos", productoService.findAll());
 		
 		//session
-		model.addAttribute("session", session.getAttribute("idusuario"));
+		model.addAttribute("sesion", session.getAttribute("idusuario"));
 		
 		return "usuario/home";
 	}
@@ -135,7 +135,7 @@ public class HomeController {
 		model.addAttribute("pedido", pedido);
 		
 		//session
-		model.addAttribute("session", session.getAttribute("idusuario"));
+		model.addAttribute("sesion", session.getAttribute("idusuario"));
 		
 		return "/usuario/carrito";
 	}
