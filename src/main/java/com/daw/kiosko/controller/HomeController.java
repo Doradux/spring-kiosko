@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.daw.kiosko.model.DetallePedido;
 import com.daw.kiosko.model.Pedido;
 import com.daw.kiosko.model.Producto;
+import com.daw.kiosko.model.Usuario;
+import com.daw.kiosko.service.IUsuarioService;
 import com.daw.kiosko.service.ProductoService;
 
 @Controller
@@ -28,6 +30,9 @@ public class HomeController {
 	
 	@Autowired
 	private ProductoService productoService;
+	
+	@Autowired
+	private IUsuarioService usuarioService;
 	
 	//almacenar datos pedido
 	List<DetallePedido> detalles = new ArrayList<DetallePedido>();
@@ -115,7 +120,15 @@ public class HomeController {
 	}
 	
 	@GetMapping("/pedido")
-	public String pedido() {
+	public String pedido(Model model) {
+		
+		Usuario usuario = usuarioService.findById(1).get();
+		
+		model.addAttribute("cart", detalles);
+		model.addAttribute("pedido", pedido);
+		model.addAttribute("usuario", usuario);
+		
+		
 		return "usuario/resumenpedido";
 	}
 }
