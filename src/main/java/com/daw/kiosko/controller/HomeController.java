@@ -22,6 +22,9 @@ import com.daw.kiosko.model.Pedido;
 import com.daw.kiosko.model.Producto;
 import com.daw.kiosko.model.Usuario;
 import com.daw.kiosko.service.IUsuarioService;
+
+import jakarta.servlet.http.HttpSession;
+
 import com.daw.kiosko.service.IDetallePedidoService;
 import com.daw.kiosko.service.IPedidoService;
 import com.daw.kiosko.service.IProductoService;
@@ -49,7 +52,8 @@ public class HomeController {
 	Pedido pedido = new Pedido();
 	
 	@GetMapping("")
-	public String home(Model model) {
+	public String home(Model model, HttpSession session) {
+		LOGGER.info("Sesion del usuario: {}", session.getAttribute("idusuario"));
 		model.addAttribute("productos", productoService.findAll());
 		return "usuario/home";
 	}
@@ -130,9 +134,9 @@ public class HomeController {
 	}
 	
 	@GetMapping("/pedido")
-	public String pedido(Model model) {
+	public String pedido(Model model, HttpSession session) {
 		
-		Usuario usuario = usuarioService.findById(1).get();
+		Usuario usuario = usuarioService.findById(Integer.parseInt(session.getAttribute("idusuario").toString())).get();
 		
 		model.addAttribute("cart", detalles);
 		model.addAttribute("pedido", pedido);
@@ -143,14 +147,14 @@ public class HomeController {
 	}
 	
 	@GetMapping("/savePedido")
-	public String savePedido() {
+	public String savePedido(HttpSession session) {
 		
 		Date fechaCreacion = new Date();
 		pedido.setFechaCreacion(fechaCreacion);
 		pedido.setNumero(pedidoService.generarNumeroPedido());
 		
 		//usuario
-		Usuario usuario = usuarioService.findById(1).get();
+		Usuario usuario = usuarioService.findById(Integer.parseInt(session.getAttribute("idusuario").toString())).get();
 		
 		pedido.setUsuario(usuario);
 		pedidoService.save(pedido);
