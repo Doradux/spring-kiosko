@@ -1,13 +1,14 @@
 package com.daw.kiosko.model;
 
 import java.util.Date;
+import java.util.List;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -20,12 +21,12 @@ public class Pedido {
 	private Date fechaCreacion;
 	private Date fechaRecibida;
 	private double total;
-	
+
 	@ManyToOne
 	private Usuario usuario;
-	
-	@OneToOne(mappedBy = "pedido")
-	private DetallePedido detalle;
+
+	@OneToMany(mappedBy = "pedido")
+	private List<DetallePedido> detalle;
 
 	public Pedido() {
 	}
@@ -87,11 +88,11 @@ public class Pedido {
 		this.usuario = usuario;
 	}
 
-	public DetallePedido getDetalle() {
+	public List<DetallePedido> getDetalle() {
 		return detalle;
 	}
 
-	public void setDetalle(DetallePedido detalle) {
+	public void setDetalle(List<DetallePedido> detalle) {
 		this.detalle = detalle;
 	}
 
@@ -101,8 +102,4 @@ public class Pedido {
 				+ fechaRecibida + ", total=" + total + "]";
 	}
 
-	
-	
-	
-	
 }
