@@ -20,7 +20,7 @@ import com.daw.kiosko.model.Pedido;
 import com.daw.kiosko.model.Producto;
 import com.daw.kiosko.model.Usuario;
 import com.daw.kiosko.service.IUsuarioService;
-import com.daw.kiosko.service.ProductoService;
+import com.daw.kiosko.service.IProductoService;
 
 @Controller
 @RequestMapping("/")
@@ -29,7 +29,7 @@ public class HomeController {
 	private final Logger LOGGER = LoggerFactory.getLogger(HomeController.class);
 	
 	@Autowired
-	private ProductoService productoService;
+	private IProductoService productoService;
 	
 	@Autowired
 	private IUsuarioService usuarioService;
