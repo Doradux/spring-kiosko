@@ -1,5 +1,7 @@
 package com.daw.kiosko.controller;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import org.slf4j.Logger;
@@ -11,7 +13,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import com.daw.kiosko.model.DetallePedido;
+import com.daw.kiosko.model.Pedido;
 import com.daw.kiosko.model.Producto;
 import com.daw.kiosko.service.ProductoService;
 
@@ -23,6 +28,10 @@ public class HomeController {
 	
 	@Autowired
 	private ProductoService productoService;
+	
+	//almacenar datos pedido
+	List<DetallePedido> detalles = new ArrayList<DetallePedido>();
+	Pedido pedido = new Pedido();
 	
 	@GetMapping("")
 	public String home(Model model) {
@@ -42,7 +51,13 @@ public class HomeController {
 	}
 	
 	@PostMapping("/cart")
-	public String addCart() {
+	public String addCart(@RequestParam Integer id, @RequestParam Integer cantidad) {
+		DetallePedido detallePedido = new DetallePedido();
+		double total = 0;
+		
+		Optional<Producto> optionalProducto = productoService.get(id);
+		LOGGER.info("Producto anadido: {}", optionalProducto.get());
+		LOGGER.info("Cantidad: {}", cantidad);
 		return "usuario/carrito";
 	}
 }
