@@ -1,8 +1,10 @@
 package com.daw.kiosko.controller;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,6 +22,8 @@ import com.daw.kiosko.model.Pedido;
 import com.daw.kiosko.model.Producto;
 import com.daw.kiosko.model.Usuario;
 import com.daw.kiosko.service.IUsuarioService;
+import com.daw.kiosko.service.IDetallePedidoService;
+import com.daw.kiosko.service.IPedidoService;
 import com.daw.kiosko.service.IProductoService;
 
 @Controller
@@ -33,6 +37,12 @@ public class HomeController {
 	
 	@Autowired
 	private IUsuarioService usuarioService;
+	
+	@Autowired
+	private IPedidoService pedidoService;
+	
+	@Autowired
+	private IDetallePedidoService detallePedidoService;
 	
 	//almacenar datos pedido
 	List<DetallePedido> detalles = new ArrayList<DetallePedido>();
@@ -130,5 +140,42 @@ public class HomeController {
 		
 		
 		return "usuario/resumenpedido";
+	}
+	
+	@GetMapping("/savePedido")
+	public String savePedido() {
+		
+		Date fechaCreacion = new Date();
+		pedido.setFechaCreacion(fechaCreacion);
+		pedido.setNumero(pedidoService.generarNumeroPedido());
+		
+		//usuario
+		Usuario usuario = usuarioService.findById(1).get();
+		
+		pedido.setUsuario(usuario);
+		pedidoService.save(pedido);
+		
+		//guardar
+		for (DetallePedido dt:detalles) {
+			dt.setPedido(pedido);
+			detallePedidoService.save(dt);
+		}
+		
+		//limpiar lista y pedido
+		pedido = new Pedido();
+		detalles.clear();
+		
+		
+		return "redirect:/";
+	}
+	
+	@PostMapping("/search")
+	public String searchProduct(@RequestParam String nombre, Model model) {
+		LOGGER.info("Nombre del producto: {}", nombre);
+		//filtra productos
+		List<Producto> productos = productoService.findAll().stream().filter(p -> p.getNombre().toLowerCase().contains(nombre.toLowerCase())).collect(Collectors.toList());
+		model.addAttribute("productos", productos);
+		
+		return "/usuario/home";
 	}
 }
